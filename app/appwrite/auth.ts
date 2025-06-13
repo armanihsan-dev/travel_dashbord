@@ -21,6 +21,12 @@ export const storeUserData = async () => {
         const user = await account.get();
         if (!user) throw new Error("User not found");
 
+        // Check if user already exists in the database
+        const existingUser = await getExistingUser(user.$id);
+        if (existingUser) {
+            return existingUser; // Return existing user if found
+        }
+
         const { providerAccessToken } = (await account.getSession("current")) || {};
         const profilePicture = providerAccessToken
             ? await getGooglePicture(providerAccessToken)
@@ -40,8 +46,11 @@ export const storeUserData = async () => {
         );
 
         if (!createdUser.$id) redirect("/sign-in");
+
+        return createdUser; // Return the newly created user
     } catch (error) {
         console.error("Error storing user data:", error);
+        return null;
     }
 };
 
@@ -65,7 +74,7 @@ export const loginWithGoogle = async () => {
     try {
         account.createOAuth2Session(
             OAuthProvider.Google,
-            `${window.location.origin}/dashboard`,
+            `${window.location.origin}/`,
             `${window.location.origin}/404`
         );
     } catch (error) {

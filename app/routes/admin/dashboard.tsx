@@ -1,15 +1,18 @@
 import React from 'react'
 import {Header, StatsCard, TripCard} from "../../../components";
 import {allTrips, dashboardStats} from "~/constants";
+import {getUser} from "~/appwrite/auth";
+import type {Route} from './+types/Dashboard'
+import {useLoaderData} from "react-router";
+
+export const userLoader = async () => await getUser();
 
 
-const Dashboard = () => {
-
+const Dashboard = ({loaderData}:Route.ComponentProps) => {
     const {totalUser, usersJoined, totalTrips, tripsCreated, userRole} = dashboardStats
     return (
         <main className='dashboard wrapper'>
-            <Header title='Welcome Arman  👋' description='Track activity, trends and popular destinations in real time'/>
-
+            <Header title={`Welcome ${'arman'}   👋`}  description='Track activity, trends and popular destinations in real time'/>
             <section className="flex flex-col gap-6">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
                     <StatsCard headerTitle="Total Users" total={totalUser}
