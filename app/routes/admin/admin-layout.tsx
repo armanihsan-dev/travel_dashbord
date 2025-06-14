@@ -1,8 +1,9 @@
 import React from 'react'
-import {Outlet, redirect} from "react-router";
+import {Outlet, redirect} from "react-router-dom";
 import {SidebarComponent} from "@syncfusion/ej2-react-navigations";
 import {MobileSideBar, NavItems} from "../../../components";
 import {clientLoader} from "~/loaders/clinetLoader";
+
 
 const AdminLayout = () => {
     return (
@@ -19,5 +20,5 @@ const AdminLayout = () => {
         </div>
     )
 }
-export default AdminLayout
 export {clientLoader}
+export default AdminLayout

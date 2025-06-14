@@ -3,11 +3,6 @@ import {allTrips, dashboardStats} from "~/constants";
 import {useLoaderData} from "react-router";
 import {clientLoader} from "~/loaders/clinetLoader";
 
-export async function loader() {
-    throw new Error("some error thrown in a loader");
-}
-
-
 const Dashboard = () => {
     const user = useLoaderData()
     const {totalUser, usersJoined, totalTrips, tripsCreated, userRole} = dashboardStats

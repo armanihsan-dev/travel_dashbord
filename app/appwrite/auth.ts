@@ -1,6 +1,6 @@
 import { ID, OAuthProvider, Query } from "appwrite";
 import { account, database, appwriteConfig } from "~/appwrite/client";
-import { redirect } from "react-router";
+import { redirect } from "react-router-dom";
 
 export const getExistingUser = async (id: string) => {
     try {
@@ -21,10 +21,10 @@ export const storeUserData = async () => {
         const user = await account.get();
         if (!user) throw new Error("User not found");
 
-        // Check if user already exists in the database
+
         const existingUser = await getExistingUser(user.$id);
         if (existingUser) {
-            return existingUser; // Return existing user if found
+            return existingUser;
         }
 
         const { providerAccessToken } = (await account.getSession("current")) || {};
@@ -42,6 +42,7 @@ export const storeUserData = async () => {
                 name: user.name,
                 imageUrl: profilePicture,
                 joinedAt: new Date().toISOString(),
+                status:"admin",
             }
         );
 
@@ -54,7 +55,7 @@ export const storeUserData = async () => {
     }
 };
 
-const getGooglePicture = async (accessToken: string) => {
+export const getGooglePicture = async (accessToken: string) => {
     try {
         const response = await fetch(
             "https://people.googleapis.com/v1/people/me?personFields=photos",
@@ -74,7 +75,7 @@ export const loginWithGoogle = async () => {
     try {
         account.createOAuth2Session(
             OAuthProvider.Google,
-            `${window.location.origin}/`,
+            `${window.location.origin}/dashboard`,
             `${window.location.origin}/404`
         );
     } catch (error) {
@@ -100,7 +101,7 @@ export const getUser = async () => {
             appwriteConfig.userCollectionId,
             [
                 Query.equal("accountId", user.$id),
-                Query.select(["name", "email", "imageUrl", "joinedAt", "accountId"]),
+                Query.select(["name", "email", "imageUrl", "joinedAt", "accountId", "status"]),
             ]
         );
         return documents.length > 0 ? documents[0] : redirect("/sign-in");
@@ -126,4 +127,3 @@ export const getAllUsers = async (limit: number, offset: number) => {
         return { users: [], total: 0 }
     }
 }
-

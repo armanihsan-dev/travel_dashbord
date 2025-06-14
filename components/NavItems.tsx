@@ -1,12 +1,12 @@
 import React from 'react'
-import {Link, NavLink, useLoaderData, useNavigate} from "react-router";
+import {Link, NavLink, useLoaderData, useNavigate} from "react-router-dom";
 import {sidebarItems} from "~/constants";
 import {cn} from "../lib/utils";
-import {account} from "~/appwrite/client";
 import {logoutUser} from "~/appwrite/auth";
 
 const NavItems = ({handleClick}:{handleClick?:()=>void}) => {
     const user = useLoaderData()
+    console.log('anv user',user)
     const navigate = useNavigate()
     const handleLogout = async () => {
         await logoutUser()
@@ -38,7 +38,12 @@ const NavItems = ({handleClick}:{handleClick?:()=>void}) => {
                     ))}
                 </nav>
                 <footer className="nav-footer">
-                    <img src={user?.imageUrl || '/assets/images/david.webp'} alt={user?.name || 'David'} referrerPolicy="no-referrer" />
+                    <img 
+                        src={user?.imageUrl || (user?.email ? `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name || '')}&background=random` : '/assets/images/david.webp')} 
+                        alt={user?.name || 'User'} 
+                        referrerPolicy="no-referrer" 
+                        className="size-10 rounded-full object-cover"
+                    />
 
                     <article>
                         <h2>{user?.name}</h2>
@@ -60,4 +65,5 @@ const NavItems = ({handleClick}:{handleClick?:()=>void}) => {
         </section>
     )
 }
+
 export default NavItems

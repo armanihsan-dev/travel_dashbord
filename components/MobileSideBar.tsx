@@ -1,7 +1,8 @@
 //@ts-nocheck
 import {SidebarComponent} from "@syncfusion/ej2-react-navigations";
-import {Link} from "react-router";
+import {Link} from "react-router-dom";
 import {NavItems} from "./index";
+
 
 const MobileSideBar = () => {
     let sidebar: SidebarComponent;
