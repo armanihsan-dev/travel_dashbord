@@ -92,9 +92,9 @@ export const logoutUser = async () => {
 
 export const getUser = async () => {
     try {
+
         const user = await account.get();
         if (!user) return redirect("/sign-in");
-
         const { documents } = await database.listDocuments(
             appwriteConfig.databaseId,
             appwriteConfig.userCollectionId,
@@ -103,7 +103,6 @@ export const getUser = async () => {
                 Query.select(["name", "email", "imageUrl", "joinedAt", "accountId"]),
             ]
         );
-
         return documents.length > 0 ? documents[0] : redirect("/sign-in");
     } catch (error) {
         console.error("Error fetching user:", error);
@@ -127,3 +126,4 @@ export const getAllUsers = async (limit: number, offset: number) => {
         return { users: [], total: 0 }
     }
 }
+

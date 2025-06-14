@@ -5,7 +5,6 @@ import {NavItems} from "./index";
 
 const MobileSideBar = () => {
     let sidebar: SidebarComponent;
-
     const toggleSidebar = () => {
         sidebar.toggle()
     }
