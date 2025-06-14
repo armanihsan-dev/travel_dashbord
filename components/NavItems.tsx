@@ -6,7 +6,6 @@ import {logoutUser} from "~/appwrite/auth";
 
 const NavItems = ({handleClick}:{handleClick?:()=>void}) => {
     const user = useLoaderData()
-    console.log('anv user',user)
     const navigate = useNavigate()
     const handleLogout = async () => {
         await logoutUser()

@@ -15,7 +15,6 @@ export const getExistingUser = async (id: string) => {
         return null;
     }
 };
-
 export const storeUserData = async () => {
     try {
         const user = await account.get();

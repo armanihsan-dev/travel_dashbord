@@ -3,11 +3,13 @@ import {Outlet, redirect} from "react-router-dom";
 import {SidebarComponent} from "@syncfusion/ej2-react-navigations";
 import {MobileSideBar, NavItems} from "../../../components";
 import {clientLoader} from "~/loaders/clinetLoader";
+import {Toaster} from "react-hot-toast";
 
 
 const AdminLayout = () => {
     return (
         <div className='admin-layout'>
+            <Toaster/>
             <MobileSideBar/>
             <aside className='w-full max-w-[270px] hidden lg:block'>
                 <SidebarComponent width='270' enableGestures={false}>
