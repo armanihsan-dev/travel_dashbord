@@ -1,5 +1,5 @@
 import React from 'react'
-import {Link, redirect} from "react-router";
+import {Link, redirect} from "react-router-dom";
 import {ButtonComponent} from "@syncfusion/ej2-react-buttons";
 import {loginWithGoogle} from "~/appwrite/auth";
 import {account} from "~/appwrite/client";

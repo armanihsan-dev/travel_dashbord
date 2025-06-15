@@ -1,4 +1,4 @@
-import {Link, useLocation} from "react-router";
+import {Link, useLocation} from "react-router-dom";
 import {ChipDirective, ChipListComponent, ChipsDirective} from "@syncfusion/ej2-react-buttons";
 import {cn, getFirstWord} from "../lib/utils";
 
@@ -8,7 +8,7 @@ const TripCard = ({ id, name, location, imageUrl, tags, price }: TripCardProps) 
 
     return (
         <Link to={path.pathname === '/' || path.pathname.startsWith('/travel') ? `/travel/${id}` : `/trips/${id}`} className="trip-card">
-            <img src={imageUrl} alt={name} />
+            {imageUrl && <img src={imageUrl} alt={name} />}
 
             <article>
                 <h2>{name}</h2>

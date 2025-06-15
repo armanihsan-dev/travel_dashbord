@@ -1,4 +1,4 @@
-import {Link, useLocation} from "react-router";
+import {Link, useLocation} from "react-router-dom";
 import {IntlBase} from "@syncfusion/ej2-base";
 import {ButtonComponent} from "@syncfusion/ej2-react-buttons";
 import {cn} from "../lib/utils";
