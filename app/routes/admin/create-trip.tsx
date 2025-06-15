@@ -7,6 +7,7 @@ import {LayerDirective, LayersDirective, MapsComponent} from "@syncfusion/ej2-re
 import {world_map} from "~/constants/world_map";
 import {ButtonComponent} from "@syncfusion/ej2-react-buttons";
 import {account} from "~/appwrite/client";
+import {useNavigate} from "react-router-dom";
 import toast from "react-hot-toast";
 
 interface Country {
@@ -17,6 +18,7 @@ interface Country {
 }
 const CreateTrip = () => {
     const [countries, setCountries] = useState<Country[]>([]);
+    const navigate = useNavigate()
     const [error,setError]=useState<string|null>(null)
     const[loading,setLoading]=useState(false)
     const [formData, setFormData] = useState<TripFormData>({
@@ -55,8 +57,22 @@ const CreateTrip = () => {
             return
         }
         try {
-            console.log('user',user)
-            console.log('form Data',formData)
+            const response = await fetch('/api/create-trip', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    country: formData.country,
+                    numberOfDays: formData.duration,
+                    travelStyle: formData.travelStyle,
+                    interests: formData.interest,
+                    budget: formData.budget,
+                    groupType: formData.groupType,
+                    userId: user.$id
+                })
+            })
+            const result: CreateTripResponse = await response.json();
+            if(result?.id) navigate(`/trips/${result.id}`)
+            else console.error('Failed to generate a trip')
         }catch (error){
             console.log(error)
 
