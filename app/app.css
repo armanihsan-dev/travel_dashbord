@@ -4,12 +4,18 @@
 
 @import "tailwindcss";
 
+
 @import "../node_modules/@syncfusion/ej2-base/styles/material.css";
 @import "../node_modules/@syncfusion/ej2-react-buttons/styles/material.css";
 @import "../node_modules/@syncfusion/ej2-react-grids/styles/material.css";
 @import "../node_modules/@syncfusion/ej2-react-navigations/styles/material.css";
 @import "../node_modules/@syncfusion/ej2-react-splitbuttons/styles/material.css";
 @import "../node_modules/@syncfusion/ej2-react-dropdowns/styles/material.css";
+#sentry-feedback-button,
+iframe[src*="sentry.io"],
+button[aria-label*="feedback"] {
+  display: none !important;
+}
 
 @theme {
   --font-figtree: "Figtree", sans-serif;
@@ -262,23 +268,32 @@
     }
   }
   .trip-card {
-    @apply shadow-300 bg-white rounded-[20px] flex-col w-full relative;
+    @apply bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col w-full transition-transform hover:scale-[1.02] duration-300;
+
     img {
-      @apply w-full h-[160px] rounded-t-xl object-cover aspect-video;
+      @apply w-full h-[180px] object-cover;
     }
+
     article {
-      @apply flex flex-col gap-3 mt-4 pl-[18px] pr-3.5;
+      @apply flex flex-col gap-2 mt-4 px-4;
+
       h2 {
-        @apply text-sm md:text-lg font-semibold text-dark-100 line-clamp-2;
+        @apply text-lg font-semibold text-gray-900 line-clamp-2;
       }
+
       figure {
         @apply flex items-center gap-2;
-        figCaption {
-          @apply text-xs md:text-sm font-normal text-gray-100;
+        figcaption {
+          @apply text-sm text-gray-500;
         }
       }
     }
   }
+
+  .tripCard-pill {
+    @apply absolute top-4 right-4 bg-black text-white text-xs px-3 py-1 rounded-full shadow-md;
+  }
+
   .link-logo {
     @apply flex items-center gap-1.5 py-10 border-b border-light-100;
     h1 {

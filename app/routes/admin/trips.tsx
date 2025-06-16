@@ -7,12 +7,13 @@ import {PagerComponent} from "@syncfusion/ej2-react-grids";
 import {parseTripData} from "../../../lib/utils";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-    const limit = 8;
+    const limit = 3;
     const url = new URL(request.url);
     const page = parseInt(url.searchParams.get('page') || "1", 10);
     const offset = (page - 1) * limit;
 
     const { allTrips, total } = await getAllTrips(limit, offset);
+
     return {
         trips: allTrips.map(({ $id, tripDetail, imageUrls }) => ({
             id: $id,
@@ -25,7 +26,6 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
 const Trips = ({ loaderData }: Route.ComponentProps) => {
     const trips = loaderData.trips as Trip[] | [];
-    console.log("trips",trips)
 
     const [searchParams] = useSearchParams();
     const initialPage = Number(searchParams.get('page') || '1')
@@ -65,6 +65,13 @@ const Trips = ({ loaderData }: Route.ComponentProps) => {
                     ))}
                 </div>
 
+                <PagerComponent
+                    totalRecordsCount={loaderData.total}
+                    pageSize={2}
+                    currentPage={currentPage}
+                    click={(args) => handlePageChange(args.currentPage)}
+                    cssClass="!mb-4"
+                />
             </section>
         </main>
     )

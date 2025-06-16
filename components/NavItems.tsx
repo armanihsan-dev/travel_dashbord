@@ -4,8 +4,11 @@ import {sidebarItems} from "~/constants";
 import {cn} from "../lib/utils";
 import {logoutUser} from "~/appwrite/auth";
 
+
 const NavItems = ({handleClick}:{handleClick?:()=>void}) => {
-    const user = useLoaderData()
+    const {currentUserData} = useLoaderData()
+    console.log('current user data',currentUserData)
+
     const navigate = useNavigate()
     const handleLogout = async () => {
         await logoutUser()
@@ -38,15 +41,15 @@ const NavItems = ({handleClick}:{handleClick?:()=>void}) => {
                 </nav>
                 <footer className="nav-footer">
                     <img 
-                        src={user?.imageUrl || (user?.email ? `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name || '')}&background=random` : '/assets/images/david.webp')} 
-                        alt={user?.name || 'User'} 
+                        src={currentUserData?.imageUrl || (currentUserData?.email ? `https://ui-avatars.com/api/?name=${encodeURIComponent(currentUserData.name || '')}&background=random` : '/assets/images/david.webp')}
+                        alt={currentUserData?.name || 'User'}
                         referrerPolicy="no-referrer" 
                         className="size-10 rounded-full object-cover"
                     />
 
                     <article>
-                        <h2>{user?.name}</h2>
-                        <p>{user?.email}</p>
+                        <h2>{currentUserData?.name}</h2>
+                        <p>{currentUserData?.email}</p>
                     </article>
 
                     <button
@@ -64,5 +67,6 @@ const NavItems = ({handleClick}:{handleClick?:()=>void}) => {
         </section>
     )
 }
+
 
 export default NavItems

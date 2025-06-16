@@ -19,8 +19,6 @@ export const storeUserData = async () => {
     try {
         const user = await account.get();
         if (!user) throw new Error("User not found");
-
-
         const existingUser = await getExistingUser(user.$id);
         if (existingUser) {
             return existingUser;
