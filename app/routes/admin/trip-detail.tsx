@@ -15,9 +15,9 @@ export const loader = async ({params}:LoaderFunctionArgs)=>{
     ]);
     return {
         trip,
-        allTrips: trips.allTrips.map(({ $id, tripDetails, imageUrls , tags }) => ({
+        allTrips: trips.allTrips.map(({ $id, tripDetail, imageUrls , }) => ({
             id: $id,
-            ...parseTripData(tripDetails),
+            ...parseTripData(tripDetail),
             imageUrls: imageUrls ?? [] ,
         }))
     }
@@ -25,6 +25,7 @@ export const loader = async ({params}:LoaderFunctionArgs)=>{
 const TripDetail = () => {
     const loaderData = useLoaderData()
     const imageUrls = loaderData?.trip?.imageUrls || []
+    const data = loaderData
     const tripData = parseTripData(loaderData?.trip?.tripDetail)
     const allTrips = loaderData.allTrips as Trip[] | [];
     const {name, duration, itinerary, travelStyle,

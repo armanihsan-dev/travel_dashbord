@@ -72,6 +72,9 @@ declare interface Trip {
   weatherInfo: string[];
   location: Location;
   payment_link: string;
+  tripDetails :{
+
+  }
 }
 
 declare interface TripCardProps {
