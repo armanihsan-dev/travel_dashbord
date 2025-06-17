@@ -11,7 +11,7 @@ const StatsCard = ({
     const isDecrement = trend === 'decrement';
 
     return (
-        <article className="stats-card">
+        <article className="stats-card px-1">
             <h3 className="text-base font-medium">
                 {headerTitle}
             </h3>
