@@ -110,13 +110,13 @@ export const getTripsCreatedPerDay = async () => {
 
 export const getTripsByTravelStyle = async () => {
     const trips = await database.listDocuments(
-        appwriteConfig.databaseId,
-        appwriteConfig.tripCollectionId
+      appwriteConfig.databaseId,
+        appwriteConfig.tripCollectionId,
     );
 
     const travelStyleCounts = trips.documents.reduce(
         (acc: { [key: string]: number }, trip: Document) => {
-            const tripDetail = parseTripData(trip.tripDetails);
+            const tripDetail = parseTripData(trip.tripDetail);
 
             if (tripDetail && tripDetail.travelStyle) {
                 const travelStyle = tripDetail.travelStyle;

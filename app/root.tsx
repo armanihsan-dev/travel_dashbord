@@ -10,6 +10,8 @@ import {
 import type { Route } from "./+types/root";
 import "./app.css";
 import * as Sentry from "@sentry/react-router";
+import {registerLicense} from "@syncfusion/ej2-base";
+
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -24,9 +26,7 @@ export const links: Route.LinksFunction = () => [
   },
 ];
 
-import {registerLicense} from "@syncfusion/ej2-base";
-registerLicense(import.meta.env.VITE_SYNCFUSION_LICENSE_KEY_ID)
-
+registerLicense(import.meta.env.VITE_SYNCFUSION_API_KEY)
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
@@ -37,9 +37,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
+
         {children}
+
         <ScrollRestoration />
         <Scripts />
+
       </body>
     </html>
   );

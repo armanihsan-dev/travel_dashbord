@@ -5,7 +5,6 @@ import {MobileSideBar, NavItems} from "../../../components";
 import {clientLoader} from "~/loaders/clinetLoader";
 import {Toaster} from "react-hot-toast";
 
-
 const AdminLayout = () => {
     return (
         <div className='admin-layout'>

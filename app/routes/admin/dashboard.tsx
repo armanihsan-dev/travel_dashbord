@@ -1,11 +1,25 @@
 import {Header, StatsCard, TripCard} from "../../../components";
-import {allTrips, dashboardStats} from "~/constants";
 import {useLoaderData} from "react-router";
 import {clientLoader} from "~/loaders/clinetLoader";
+import {
+    Category,
+    ChartComponent,
+    ColumnSeries,
+    Inject,
+    SeriesCollectionDirective, SeriesDirective,
+    SplineAreaSeries,
+    Tooltip
+} from "@syncfusion/ej2-react-charts";
+import {DataLabel} from "@syncfusion/ej2-maps";
+import {tripXAxis, tripyAxis, userXAxis, useryAxis} from "~/constants";
 
 const Dashboard = () => {
-    const {currentUserData,dashboardStats} = useLoaderData()
-    console.log('db stats ',dashboardStats)
+    const {currentUserData,dashboardStats,allTrips,
+        userGrowth,
+        tripsByTravelStyle,
+        allUsers} = useLoaderData()
+    console.log('user Growth',userGrowth)
+
 
     const {totalUsers,totalTrips,tripsCreated}=dashboardStats
     return (
@@ -25,12 +39,71 @@ const Dashboard = () => {
             <section className="container flex">
                 <h1 className="text-xl font-semibold text-dark-100">Created Trips</h1>
                 <div className='trip-grid'>
-                    {allTrips.slice(0,4).map(({id,name,imageUrls,itinerary,tags,estimatedPrice})=>(
-                        <TripCard key={id} id={id.toString()} name={name} imageUrl={imageUrls[0]}
-                                  location={itinerary?.[0].location ?? ''} price={estimatedPrice} tags={tags}/>
+                    {allTrips.map((trip:any) => (
+                        <TripCard
+                            key={trip.id}
+                            id={trip.id.toString()}
+                            name={trip.name!}
+                            imageUrl={trip.imageUrls[0]}
+                            location={trip.itinerary?.[0]?.location ?? ''}
+                            tags={[trip.interests!, trip.travelStyle!]}
+                            price={trip.estimatedPrice!}
+                        />
                     ))}
                 </div>
                 </section>
+            <section className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                <ChartComponent
+                    id="chart-1"
+                    primaryXAxis={userXAxis}
+                    primaryYAxis={useryAxis}
+                    title="User Growth"
+                    tooltip={{enable: true}}
+                >
+                    <Inject services={[ColumnSeries,SplineAreaSeries,Category,DataLabel,Tooltip]}/>
+                    <SeriesCollectionDirective>
+                        <SeriesDirective
+                            dataSource={userGrowth}
+                            xName="day"
+                            yName="count"
+                            type="Column"
+                            name="Column"
+                            columnWidth={0.3}
+                            cornerRadius={{topLeft: 10, topRight: 10}}
+                        />
+                        <SeriesDirective
+                            dataSource={userGrowth}
+                            xName="day"
+                            yName="count"
+                            type="SplineArea"
+                            name="Wave"
+                            fill="rgba(71, 132, 238, 0.3)"
+                            border={{ width: 2, color: '#4784EE'}}
+                        />
+                    </SeriesCollectionDirective>
+                </ChartComponent>
+                <ChartComponent
+                    id="chart-2"
+                    primaryXAxis={tripXAxis}
+                    primaryYAxis={tripyAxis}
+                    title="Trip Trends"
+                    tooltip={{ enable: true}}
+                >
+                    <Inject services={[ColumnSeries, SplineAreaSeries, Category, DataLabel, Tooltip]} />
+
+                    <SeriesCollectionDirective>
+                        <SeriesDirective
+                            dataSource={tripsByTravelStyle}
+                            xName="travelStyle"
+                            yName="count"
+                            type="Column"
+                            name="day"
+                            columnWidth={0.3}
+                            cornerRadius={{topLeft: 10, topRight: 10}}
+                        />
+                    </SeriesCollectionDirective>
+                </ChartComponent>
+            </section>
         </main>
     )
 }
