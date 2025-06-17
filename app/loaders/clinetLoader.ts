@@ -26,7 +26,7 @@ export async function clientLoader() {
         const mappedUsers: UsersItineraryCount[] = allUsers.users.map((user)=>({
             imageUrl:user.imageUrl,
             name:user.name,
-            count:user.itineraryCount
+            count:user.itineraryCount ?? Math.floor(Math.random() * 10)
         }))
 
         if (!user?.$id) return redirect('/sign-in');

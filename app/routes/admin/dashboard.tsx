@@ -12,13 +12,34 @@ import {
 } from "@syncfusion/ej2-react-charts";
 import {DataLabel} from "@syncfusion/ej2-maps";
 import {tripXAxis, tripyAxis, userXAxis, useryAxis} from "~/constants";
+import {ColumnDirective, ColumnsDirective, GridComponent} from "@syncfusion/ej2-react-grids";
 
 const Dashboard = () => {
     const {currentUserData,dashboardStats,allTrips,
         userGrowth,
         tripsByTravelStyle,
         allUsers} = useLoaderData()
-    console.log('user Growth',userGrowth)
+
+    const trips = allTrips.map((trip:any) => ({
+        imageUrl: trip.imageUrls[0],
+        name: trip.name,
+        interest: trip.interests  ,
+    }))
+
+    const usersAndTrips = [
+        {
+            title: 'Latest user signups',
+            dataSource: allUsers,
+            field: 'count',
+            headerText: 'Trips created'
+        },
+        {
+            title: 'Trips based on interests',
+            dataSource: trips,
+            field: 'interest',
+            headerText: 'Interests'
+        }
+    ]
 
 
     const {totalUsers,totalTrips,tripsCreated}=dashboardStats
@@ -104,6 +125,38 @@ const Dashboard = () => {
                     </SeriesCollectionDirective>
                 </ChartComponent>
             </section>
+                <section className='user-trip wrapper'>
+                    {usersAndTrips.map(({ title, dataSource, field, headerText}, i) => (
+                        <div key={i} className="flex flex-col gap-5">
+                            <h3 className="p-20-semibold text-dark-100">{title}</h3>
+
+                            <GridComponent dataSource={dataSource} gridLines="None">
+                                <ColumnsDirective>
+                                    <ColumnDirective
+                                        field="name"
+                                        headerText="Name"
+                                        width="200"
+                                        textAlign="Left"
+                                        template={(props: UserData) => (
+                                            <div className="flex items-center gap-1.5 px-4">
+                                                <img src={props.imageUrl} alt="user" className="rounded-full size-8 aspect-square" referrerPolicy="no-referrer" />
+                                                <span>{props.name}</span>
+                                            </div>
+                                        )}
+                                    />
+
+                                    <ColumnDirective
+                                        field={field}
+                                        headerText={headerText}
+                                        width="150"
+                                        textAlign="Left"
+                                    />
+                                </ColumnsDirective>
+                            </GridComponent>
+                        </div>
+                    ))}
+                </section>
+
         </main>
     )
 }
