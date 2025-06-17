@@ -3,8 +3,8 @@ import {Link, NavLink, useLoaderData, useNavigate} from "react-router-dom";
 import {sidebarItems} from "~/constants";
 import {cn} from "../lib/utils";
 import {logoutUser} from "~/appwrite/auth";
-
-
+import {clientLoader} from "~/loaders/clinetLoader";
+export {clientLoader}
 const NavItems = ({handleClick}:{handleClick?:()=>void}) => {
     const {currentUserData} = useLoaderData()
     const navigate = useNavigate()

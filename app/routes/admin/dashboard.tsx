@@ -13,7 +13,7 @@ import {
 import {DataLabel} from "@syncfusion/ej2-maps";
 import {tripXAxis, tripyAxis, userXAxis, useryAxis} from "~/constants";
 import {ColumnDirective, ColumnsDirective, GridComponent} from "@syncfusion/ej2-react-grids";
-
+export {clientLoader}
 const Dashboard = () => {
     const {currentUserData,dashboardStats,allTrips,
         userGrowth,
@@ -160,5 +160,5 @@ const Dashboard = () => {
         </main>
     )
 }
-export {clientLoader}
+
 export default Dashboard
