@@ -29,6 +29,10 @@ export const storeUserData = async () => {
             ? await getGooglePicture(providerAccessToken)
             : null;
 
+        // Check if user email is in admin list
+        const isAdmin = appwriteConfig.adminEmails.length > 0 &&
+            appwriteConfig.adminEmails.includes(user.email);
+
         const createdUser = await database.createDocument(
             appwriteConfig.databaseId,
             appwriteConfig.userCollectionId,
@@ -39,7 +43,7 @@ export const storeUserData = async () => {
                 name: user.name,
                 imageUrl: profilePicture,
                 joinedAt: new Date().toISOString(),
-                status:"user",
+                status: isAdmin ? "admin" : "user",
             }
         );
 
@@ -116,7 +120,7 @@ export const getAllUsers = async (limit: number, offset: number) => {
             [Query.limit(limit), Query.offset(offset)]
         )
 
-        if(total === 0) return { users: [], total };
+        if (total === 0) return { users: [], total };
 
         return { users, total };
     } catch (e) {
